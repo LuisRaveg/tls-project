@@ -148,3 +148,15 @@ Cada escenario se ejecuta varias veces con el fin de reducir ruido experimental 
 Los scripts requieren permisos `sudo` porque `tc netem` modifica configuraciones de red a nivel de kernel.
 
 El proyecto fue probado en Ubuntu utilizando WSL.
+
+---
+
+## Referencias
+
+Performance Evaluation of SSL/TLS Handshake Latency in Distributed Web Service Architectures. (2025). International Journal Of Communication And Computer Technologies, 13(2). https://doi.org/10.31838/ijccts.13.02.05
+
+Jonker, A., & Krantz, T. (2025, 26 noviembre). Transport Layer Security. Ibm. https://www.ibm.com/mx-es/think/topics/transport-layer-security
+
+What happens in a TLS Handshake? | Cloudflare. (n.d.). https://www.cloudflare.com/es-es/learning/ssl/what-happens-in-a-tls-handshake/
+
+Amaya, J. R. (2025, 23 diciembre). Entendiendo la Fortaleza de Una Suite de Cifrado. ISecAuditors. https://blog.isecauditors.com/entendiendo-la-fortaleza-de-una-suite-de-cifrado
