@@ -1,18 +1,10 @@
 import subprocess
 import csv
 
-# ============================================================
-# EXPERIMENTO TLS 1.3 PARA macOS
-# Fase 1: Parametros individuales (Latencia, Perdida, Jitter)
-# Fase 2: Escenarios combinados realistas
-# Usa dnctl + pfctl en lugar de tc/netem (no existe en Mac)
-# ============================================================
 
 PF_CONF = "pf_tls.conf"
 URL = "https://www.google.com"
 
-# Ruta del curl de Homebrew (con OpenSSL, soporta TLS 1.3 correctamente)
-# El curl que viene por defecto en macOS usa LibreSSL y tiene problemas con TLS 1.3
 CURL = "/opt/homebrew/opt/curl/bin/curl"
 
 def crear_pf_conf():
@@ -96,7 +88,6 @@ def main():
     with open(archivo, mode='w', newline='') as f:
         writer = csv.writer(f)
 
-        # Encabezados unificados para ambas fases
         writer.writerow([
             "SO", "Fase", "Variable_o_Escenario", "Valor_o_Latencia",
             "Jitter_ms", "Perdida_pct", "TLS", "Iteracion",
@@ -104,15 +95,9 @@ def main():
             "time_total", "http_code", "status"
         ])
 
-        # ================================================
-        # FASE 1: PARAMETROS INDIVIDUALES
-        # ================================================
-        print("\n############################################")
-        print("# FASE 1: PARAMETROS INDIVIDUALES")
-        print("############################################")
+        print("\nFASE 1: PARAMETROS INDIVIDUALES")
 
-        # ---- LATENCIA ----
-        print("\n===== Variable: LATENCIA =====")
+        print("\nVariable: LATENCIA")
         niveles_latencia = [0, 50, 100, 200, 300]
         for lat in niveles_latencia:
             print(f"\nLatencia = {lat} ms")
@@ -123,8 +108,7 @@ def main():
                 writer.writerow(fila)
                 print(f"  Muestra {i+1}/{muestras} -> handshake={datos[2]} ms")
 
-        # ---- PERDIDA ----
-        print("\n===== Variable: PERDIDA =====")
+        print("\nVariable: PERDIDA")
         niveles_perdida = [0, 1, 3, 5, 10]
         for p in niveles_perdida:
             print(f"\nPerdida = {p}%")
@@ -135,10 +119,7 @@ def main():
                 writer.writerow(fila)
                 print(f"  Muestra {i+1}/{muestras} -> handshake={datos[2]} ms")
 
-        # ---- JITTER ----
-        # OJO: dnctl no aplica jitter real, solo se registra el valor
-        # y se aplica latencia base de 100ms como referencia.
-        print("\n===== Variable: JITTER =====")
+        print("\nVariable: JITTER")
         print("(Nota: dnctl no simula jitter real en Mac, se registra como metadato)")
         niveles_jitter = [0, 10, 20, 50]
         for jitter in niveles_jitter:
@@ -150,12 +131,7 @@ def main():
                 writer.writerow(fila)
                 print(f"  Muestra {i+1}/{muestras} -> handshake={datos[2]} ms")
 
-        # ================================================
-        # FASE 2: ESCENARIOS COMBINADOS
-        # ================================================
-        print("\n############################################")
-        print("# FASE 2: ESCENARIOS COMBINADOS")
-        print("############################################")
+        print("\nFASE 2: ESCENARIOS COMBINADOS")
 
         escenarios = [
             ("Servidor_Internacional", 200, 10, 0),
@@ -165,7 +141,7 @@ def main():
         ]
 
         for nombre, lat, jitter, perdida in escenarios:
-            print(f"\n===== Escenario: {nombre} =====")
+            print(f"\nEscenario: {nombre}")
             print(f"Latencia={lat}ms | Jitter={jitter}ms | Perdida={perdida}%")
             aplicar_red(latencia=lat, perdida=perdida)
             for i in range(muestras):
