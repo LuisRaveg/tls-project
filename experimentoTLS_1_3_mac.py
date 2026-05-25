@@ -8,10 +8,7 @@ URL = "https://www.google.com"
 CURL = "/opt/homebrew/opt/curl/bin/curl"
 
 def crear_pf_conf():
-    """
-    Crea el archivo de reglas de pf que redirige el trafico TCP
-    del puerto 443 (HTTPS) hacia el pipe de dummynet.
-    """
+    
     reglas = (
         "dummynet in quick proto tcp from any to any port 443 pipe 1\n"
         "dummynet out quick proto tcp from any to any port 443 pipe 1\n"
@@ -20,20 +17,14 @@ def crear_pf_conf():
         f.write(reglas)
 
 def limpiar_red():
-    """
-    Apaga pf y limpia los pipes de dummynet.
-    """
+   
     subprocess.run("sudo pfctl -d", shell=True,
                    stderr=subprocess.DEVNULL, stdout=subprocess.DEVNULL)
     subprocess.run("sudo dnctl -q flush", shell=True,
                    stderr=subprocess.DEVNULL, stdout=subprocess.DEVNULL)
 
 def aplicar_red(latencia=0, perdida=0):
-    """
-    Configura un pipe de dummynet con la latencia y perdida indicadas.
-    NOTA: dnctl en macOS NO soporta jitter real como netem en Linux.
-    Cuando se simula jitter, se aplica solo el delay base.
-    """
+    
     plr = perdida / 100.0
 
     subprocess.run("sudo dnctl -q flush", shell=True,
@@ -50,9 +41,7 @@ def aplicar_red(latencia=0, perdida=0):
                    stderr=subprocess.DEVNULL, stdout=subprocess.DEVNULL)
 
 def medir_tls():
-    """
-    Mide tiempos de conexion TCP, handshake TLS 1.3 y total con curl.
-    """
+    
     cmd = (
         f'{CURL} --connect-timeout 5 '
         f'--tlsv1.3 '
