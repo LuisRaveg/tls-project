@@ -34,7 +34,12 @@ El pipeline evalúa el comportamiento de TLS bajo:
 
 ## Requisitos
 
-El proyecto fue desarrollado y ejecutado en Ubuntu/WSL utilizando Python 3.
+### Ubuntu / WSL
+
+Los siguientes scripts deben ejecutarse en Ubuntu o WSL:
+
+- `m_protocolo_1_2.py`
+- `m_protocolo_1_3.py`
 
 Herramientas necesarias:
 
@@ -52,14 +57,35 @@ sudo apt install -y python3 curl iproute2
 
 ---
 
+### macOS
+
+Los siguientes scripts deben ejecutarse en una Mac:
+
+- `experimentoTLS_1_2_mac.py`
+- `experimentoTLS_1_3_mac.py`
+
+Herramientas necesarias:
+
+- Python 3
+- curl
+```
+
+---
+
 ## Estructura del Repositorio
 
 ```text
 tls-project/
-├── experimento.py
-├── experimentoTLS_1_2.py
-├── dataset_tls.csv
-├── dataset_tls_1_2.csv
+├── Mediciones_Linux_tls_1_2.csv
+├── Mediciones_Linux_tls_1_3.csv
+├── Proyecto_TLS.ipynb
+├── README.md
+├── dataset_tls_1_2_mac_open.csv
+├── dataset_tls_1_3_mac_open.csv
+├── experimentoTLS_1_2_mac.py
+├── experimentoTLS_1_3_mac.py
+├── m_protocolo_1_2.py
+└── m_protocolo_1_3.py
 ```
 
 ---
@@ -73,30 +99,62 @@ cd tls-project
 
 ---
 
-## Ejecutar Experimento TLS 1.2
+## Ejecutar Experimentos en Ubuntu / WSL
+
+### Ejecutar Experimento TLS 1.2
 
 ```bash
-sudo python3 experimentoTLS_1_2.py
+sudo python3 m_protocolo_1_2.py
 ```
 
 Genera:
 
 ```text
-dataset_tls_1_2.csv
+Mediciones_Linux_tls_1_2.csv
 ```
 
 ---
 
-## Ejecutar Experimento TLS 1.3
+### Ejecutar Experimento TLS 1.3
 
 ```bash
-sudo python3 experimento.py
+sudo python3 m_protocolo_1_3.py
 ```
 
 Genera:
 
 ```text
-dataset_tls.csv
+Mediciones_Linux_tls_1_3.csv
+```
+
+---
+
+## Ejecutar Experimentos en macOS
+
+### Ejecutar Experimento TLS 1.2
+
+```bash
+python3 experimentoTLS_1_2_mac.py
+```
+
+Genera:
+
+```text
+dataset_tls_1_2_mac_open.csv
+```
+
+---
+
+### Ejecutar Experimento TLS 1.3
+
+```bash
+python3 experimentoTLS_1_3_mac.py
+```
+
+Genera:
+
+```text
+dataset_tls_1_3_mac_open.csv
 ```
 
 ---
@@ -117,7 +175,7 @@ Ejemplo de columnas:
 
 ## Ver los Archivos CSV
 
-Desde Ubuntu:
+Desde Ubuntu / WSL:
 
 ```bash
 ls *.csv
@@ -145,9 +203,15 @@ Cada escenario se ejecuta varias veces con el fin de reducir ruido experimental 
 
 ## Notas
 
-Los scripts requieren permisos `sudo` porque `tc netem` modifica configuraciones de red a nivel de kernel.
+Los scripts de Ubuntu/WSL requieren permisos `sudo` porque `tc netem` modifica configuraciones de red a nivel de kernel.
 
-El proyecto fue probado en Ubuntu utilizando WSL.
+Los scripts de macOS realizan mediciones desde una Mac utilizando `curl`.
+
+El análisis y visualización de resultados puede realizarse desde:
+
+```text
+Proyecto_TLS.ipynb
+```
 
 ---
 
@@ -155,7 +219,7 @@ El proyecto fue probado en Ubuntu utilizando WSL.
 
 Performance Evaluation of SSL/TLS Handshake Latency in Distributed Web Service Architectures. (2025). International Journal Of Communication And Computer Technologies, 13(2). https://doi.org/10.31838/ijccts.13.02.05
 
-Jonker, A., & Krantz, T. (2025, 26 noviembre). Transport Layer Security. Ibm. https://www.ibm.com/mx-es/think/topics/transport-layer-security
+Jonker, A., & Krantz, T. (2025, 26 noviembre). Transport Layer Security. IBM. https://www.ibm.com/mx-es/think/topics/transport-layer-security
 
 What happens in a TLS Handshake? | Cloudflare. (n.d.). https://www.cloudflare.com/es-es/learning/ssl/what-happens-in-a-tls-handshake/
 
